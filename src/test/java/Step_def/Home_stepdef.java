@@ -47,7 +47,7 @@ public class Home_stepdef {
 		common.Upto_AllModule("catalog");
 		common.Catalog_submodule("consulting form");
 		Homepage.form_fill();
-		ap.Get(props.getProperty("form_get_url")); 
+//		ap.Get(props.getProperty("form_get_url")); 
 		
 		Thread.sleep(3000);
 	}

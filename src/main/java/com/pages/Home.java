@@ -10,13 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.devtools.DevTools;
 
 import com.factory.Base_driver;
-import com.github.dockerjava.api.model.Network;
-import com.google.common.base.Optional;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 public class Home {
 
@@ -24,6 +19,9 @@ public class Home {
 	Properties props = ConfigManager.getProperties();
 	Common common= new Common();
 	Buttons button = new Buttons();
+	String TARGET_API = "addForm";
+	NetworkInterceptorUtil networkUtil = new NetworkInterceptorUtil(Base_driver. driver);
+	 
 
 	private By Add_Form = By.xpath("(//i[@class=\"ri-add-fill\"])[2]");
 	private By Add_Form_mobile = By.xpath("(//i[@class=\"ri-add-fill\"])[1]");
@@ -93,7 +91,7 @@ public class Home {
 		}
 	 
 
-	public void form_fill()   {
+	public void form_fill() throws InterruptedException   {
 
 		Base_driver.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5000));
 
@@ -138,7 +136,7 @@ public class Home {
 									System.out.println("Service selected: " + serviceName);
 									anyServiceSelected = true;
 
-									Base_driver.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1000));
+									Base_driver.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3000));
 								} else {
 									System.out.println("Service already selected: " + serviceName);
 								}
@@ -183,12 +181,26 @@ public class Home {
 			Base_driver.driver.findElement(questionLocator).sendKeys(questions[i]);
 		}
 		
- 
 
+        networkUtil.startListening(TARGET_API);
 		Base_driver.driver.findElement(save_Q).click();
-		
-		
+		Thread.sleep(3000);	
+		 
+		 String jsonRequest = networkUtil.getLatestJsonRequest();
+	        String jsonResponse = networkUtil.getLatestJsonResponse();
 
+	        if (jsonRequest != null) {
+	            System.out.println("📌 Captured API Request Payload: " + jsonRequest);
+	        } else {
+	            System.out.println("❌ No API request payload captured!");
+	        }
+
+	        if (jsonResponse != null) {
+	            System.out.println("📌 API JSON Response: " + jsonResponse);
+	        } else {
+	            System.out.println("❌ No API response captured!");
+	        }
+        
 	}
 
 }
