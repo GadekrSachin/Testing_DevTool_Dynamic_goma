@@ -1,0 +1,1 @@
+This web automation project utilizes DevTools to interact with the Network tab, ensuring advanced debugging and network monitoring capabilities. The focus of this repository is on web automation + DevTools, specifically implemented for the GoManage project.
