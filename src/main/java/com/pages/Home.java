@@ -15,13 +15,17 @@ import org.openqa.selenium.WebElement;
 
 import com.factory.Base_driver;
 
+import allapi.EndPoint;
+
 public class Home {
 
 	WebDriver driver;
 	Properties props = ConfigManager.getProperties();
 	Common common = new Common();
 	Buttons button = new Buttons();
-	String TARGET_API = "addForm";
+//	String TARGET_API = "addForm";
+//	EndPoint endpoint= new EndPoint();
+	
 	NetworkInterceptorUtil networkUtil = new NetworkInterceptorUtil(Base_driver.driver);
 
 	private By Add_Form = By.xpath("(//i[@class=\"ri-add-fill\"])[2]");
@@ -229,7 +233,7 @@ public class Home {
 			Base_driver.driver.findElement(questionLocator).sendKeys(questions[i]);
 		}
 
-		networkUtil.startListening(TARGET_API);
+		networkUtil.startListening(EndPoint.ADD_FORM_TARGET_API);
 		Base_driver.driver.findElement(save_Q).click();
 		Thread.sleep(3000);
 

@@ -1,4 +1,4 @@
-package Step_def;
+package api;
 
 import static io.restassured.RestAssured.given;
 
