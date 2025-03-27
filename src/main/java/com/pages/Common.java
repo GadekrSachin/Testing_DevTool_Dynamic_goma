@@ -16,7 +16,7 @@ import com.factory.Base_driver;
 public class Common {
 
 	Base_driver basedriver = new Base_driver();
-	private WebDriver driver;
+	  WebDriver driver;
 	Properties props = ConfigManager.getProperties();
 
 	

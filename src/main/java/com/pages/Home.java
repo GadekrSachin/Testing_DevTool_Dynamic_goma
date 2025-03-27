@@ -5,7 +5,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
+import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -17,11 +19,10 @@ public class Home {
 
 	WebDriver driver;
 	Properties props = ConfigManager.getProperties();
-	Common common= new Common();
+	Common common = new Common();
 	Buttons button = new Buttons();
 	String TARGET_API = "addForm";
-	NetworkInterceptorUtil networkUtil = new NetworkInterceptorUtil(Base_driver. driver);
-	 
+	NetworkInterceptorUtil networkUtil = new NetworkInterceptorUtil(Base_driver.driver);
 
 	private By Add_Form = By.xpath("(//i[@class=\"ri-add-fill\"])[2]");
 	private By Add_Form_mobile = By.xpath("(//i[@class=\"ri-add-fill\"])[1]");
@@ -41,9 +42,18 @@ public class Home {
 	private By add_question = By.xpath("(//span[@class='svc-add-new-item-button__text'])[1]");
 	private By save_Q = By.xpath("//button[contains(text(),\"Save\")]");
 	private By red_Line = By.xpath("//span[@class=\"MuiTypography-root MuiTypography-body1 css-1w22uhs\"]");
+	private By appointmentcard = By.xpath("//i[@class='ri-newspaper-line']");
+	private By Date_Point = By.xpath("//div[@class=\"MuiFormControl-root MuiTextField-root css-m925do\"]");
+	private By ok_button = By.xpath("//button[contains(text(),'OK')]");
+	
+	//	Add_Client
+	private By add_external_button = By.xpath("//i[@class=\"ri-add-line\"]");
+	private By add_internal_button = By.xpath("//p[@class=\"MuiTypography-root MuiTypography-body1 css-1j5h8oe\"]");
+	private By Fname = By.xpath("//input[@placeholder=\"First Name\"]");
 
-	private By appointmentcard = By.xpath("(//i[@class='ri-newspaper-line'])[2]");
-
+	private By Lname = By.xpath("//input[@placeholder=\"First Name\"]");
+	
+	
 	private By questionTitle(int index) {
 		return By.xpath(
 				"(//h5[@class='sd-title sd-element__title sd-question__title']//span[@class='sv-string-editor'])["
@@ -52,6 +62,45 @@ public class Home {
 
 	public Home(WebDriver driver) {
 		this.driver = driver;
+	}
+
+	public void add_client(String FName, String LName, String cCode, String Mnumber, String Email,
+			String Gender, String DOB, String HAddress) {
+		Base_driver.driver.findElement(add_external_button).click();
+		Base_driver.driver.findElement(add_internal_button).click();
+		
+		
+	}
+
+	public void verify_appointments_as_per_date() {
+		Base_driver.driver.findElement(Date_Point).click();
+		List<WebElement> calendarButtons = Base_driver.driver
+				.findElements(By.xpath("//button[@aria-selected='false']"));
+
+		if (!calendarButtons.isEmpty()) {
+
+			Random random = new Random();
+			int randomIndex = random.nextInt(calendarButtons.size());
+
+			WebElement randomButton = calendarButtons.get(randomIndex);
+			String selectedDate = randomButton.getText().trim();
+			randomButton.click();
+			System.out.println("Clicked on date: " + selectedDate);
+			Base_driver.driver.findElement(ok_button).click();
+			Base_driver.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+
+			WebElement datepick = Base_driver.driver.findElement(By.xpath("//input[@placeholder=\"EEEE DD MMMM\"]"));
+			String datePickerValue = datepick.getAttribute("value").trim();
+
+			if (datePickerValue.contains(selectedDate)) {
+				System.out.println("Date Picker displays the correct selected date: " + datePickerValue);
+			} else {
+				System.out.println(
+						"Date Picker validation failed! Expected: " + selectedDate + ", Found: " + datePickerValue);
+			}
+		} else {
+			System.out.println("❌ No available dates found to select.");
+		}
 	}
 
 	public void redline() {
@@ -68,7 +117,7 @@ public class Home {
 	public void user_drag() throws InterruptedException {
 		System.out.println("data");
 
-		//way1 
+		// way1
 //		WebElement appointmentCards = Base_driver.driver
 //				.findElement(By.xpath("(//i[@class=\"ri-newspaper-line\"])[3]"));
 //		WebElement dropAreas = Base_driver.driver.findElement(By.xpath(
@@ -77,21 +126,19 @@ public class Home {
 //		Common.dragAndDrop(appointmentCards, dropAreas);
 //		button.clickFixedButton(Base_driver.driver);
 
+		// way2
 
-		//way2 
-		
-		WebElement appointmentCard = Base_driver. driver.findElement(appointmentcard);
+		WebElement appointmentCard = Base_driver.driver.findElement(appointmentcard);
 //		List<WebElement> appointmentCard = driver.findElements(By.xpath("(//i[@class='ri-newspaper-line'])"));
-				
+
 		common.scrollToElement(Base_driver.driver, appointmentCard);
 		Thread.sleep(2000);
 		common.dropAppointmentInAvailableSlot(Base_driver.driver, appointmentCard);
 		Thread.sleep(2000);
 		button.clickFixedButton(Base_driver.driver);
-		}
-	 
+	}
 
-	public void form_fill() throws InterruptedException   {
+	public void form_fill() throws InterruptedException {
 
 		Base_driver.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5000));
 
@@ -150,7 +197,7 @@ public class Home {
 						}
 					}
 					if (anyServiceSelected) {
-						category.click(); 
+						category.click();
 					}
 					break;
 				}
@@ -177,30 +224,39 @@ public class Home {
 		for (int i = 0; i < questions.length; i++) {
 			Base_driver.driver.findElement(add_question).click();
 			By questionLocator = questionTitle(i + 1);
+			Thread.sleep(1000);
 			Base_driver.driver.findElement(questionLocator).click();
 			Base_driver.driver.findElement(questionLocator).sendKeys(questions[i]);
 		}
-		
 
-        networkUtil.startListening(TARGET_API);
+		networkUtil.startListening(TARGET_API);
 		Base_driver.driver.findElement(save_Q).click();
-		Thread.sleep(3000);	
-		 
-		 String jsonRequest = networkUtil.getLatestJsonRequest();
-	        String jsonResponse = networkUtil.getLatestJsonResponse();
+		Thread.sleep(3000);
 
-	        if (jsonRequest != null) {
-	            System.out.println("📌 Captured API Request Payload: " + jsonRequest);
-	        } else {
-	            System.out.println("❌ No API request payload captured!");
-	        }
+		String jsonRequest = networkUtil.getLatestJsonRequest();
+		String jsonResponse = networkUtil.getLatestJsonResponse();
 
-	        if (jsonResponse != null) {
-	            System.out.println("📌 API JSON Response: " + jsonResponse);
-	        } else {
-	            System.out.println("❌ No API response captured!");
-	        }
-        
+		if (jsonRequest != null) {
+			System.out.println("📌 Captured API Request Payload: " + jsonRequest);
+		} else {
+			System.out.println("❌ No API request payload captured!");
+		}
+
+		if (jsonResponse != null) {
+			System.out.println("📌 API JSON Response: " + jsonResponse);
+		} else {
+			System.out.println("❌ No API response captured!");
+		}
+
+		int formId = new JSONObject(jsonRequest).getInt("formId");
+		System.out.println("formId : " + formId);
+		if (formId <= 0) {
+			System.out.println(" Test Failed: formId is 0 or less!");
+			throw new AssertionError("Test Failed: Invalid formId detected");
+		} else {
+			System.out.println("✅ Test Passed: formId is valid -> " + formId);
+		}
+
 	}
 
 }

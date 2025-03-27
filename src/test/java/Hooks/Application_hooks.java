@@ -2,6 +2,7 @@ package Hooks;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.Duration;
 import java.util.Properties;
 import org.openqa.selenium.WebDriver;
@@ -31,7 +32,7 @@ public class Application_hooks {
  
  
 	@Before(order = 0)
-	public  void launch_browser() {
+	public  void launch_browser() throws MalformedURLException {
 		 
 		String browserName = props.getProperty("browsername");	
 		basedriver=new Base_driver();

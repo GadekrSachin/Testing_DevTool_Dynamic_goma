@@ -1,7 +1,9 @@
 package Step_def;
  
 import java.util.Properties;
+
 import org.openqa.selenium.By;
+
 import com.factory.Base_driver;
 import com.pages.Common;
 import com.pages.ConfigManager;
@@ -9,6 +11,7 @@ import com.pages.Home;
 import com.pages.login;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
  
 public class Home_stepdef {
@@ -24,12 +27,24 @@ public class Home_stepdef {
 
 	private By loginbutton = By.xpath("//button[text()='Login']");
 	
+	@When("add {string} and {string} and {string} and {string} and {string} and {string} and {string} and {string}")
+	public void add_and_and_and_and_and_and_and(String FName, String LName, String cCode, String Mnumber, String Email, String Gender, String DOB, String HAddress) {
+	    Homepage.add_client(FName, LName, cCode, Mnumber, Email, Gender, DOB, HAddress);
+	}
 	
+	@Then("verify create a new client")
+	public void verify_create_a_new_client() {
+	    
+	}	
 
 	@Given("user on Home page")
-	public void user_on_home_page() {
+	public void user_on_home_page()  {
 		log.user_provide_and(props.getProperty("username"), props.getProperty("password"));
-
+		 try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) { 
+			e.printStackTrace();
+		}
 	}
 	 
 	
@@ -50,6 +65,11 @@ public class Home_stepdef {
 //		ap.Get(props.getProperty("form_get_url")); 
 		
 		Thread.sleep(3000);
+	}
+	
+	@When("Verify appointments as per date")
+	public void verify_appointments_as_per_date() {
+		Homepage.verify_appointments_as_per_date();
 	}
 
 	@When("user create a new form")
