@@ -40,6 +40,7 @@ public class Common {
 	private By Product = By.xpath("//button[@id=\"simple-tab-1\"]");
 	private By Consulting_Module = By.xpath("//button[@id=\"simple-tab-2\"]");
 	private By Gift_Menu = By.xpath("//button[@id=\"simple-tab-3\"]");
+	private By Ok_button = By.xpath("//button[contains(text(),'Ok')]");
 	
 	
 	public void Upto_AllModule(String moduleName) throws InterruptedException  {
@@ -178,6 +179,9 @@ public class Common {
 		    return !classAttribute.contains("occupied"); 
 		}
 
+		public void delete_pop_up() {
+			Base_driver.driver.findElement(Ok_button).click();
+		}
 	
 		 
 }

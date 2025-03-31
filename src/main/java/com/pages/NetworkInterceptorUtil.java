@@ -1,5 +1,6 @@
 package com.pages;
- 
+
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -14,6 +15,8 @@ import org.openqa.selenium.devtools.v121.network.model.Response;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.factory.Base_driver;
+
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
@@ -23,14 +26,14 @@ public class NetworkInterceptorUtil {
     private DevTools devTools;
     private AtomicReference<RequestId> requestIdRef = new AtomicReference<>();
     private String latestJsonResponse;
-    private String latestJsonRequest;  
-    private BrowserMobProxy proxy;       
+    private String latestJsonRequest;
+    private BrowserMobProxy proxy;
     boolean isFirefoxProxyActive = false;
 
     public NetworkInterceptorUtil(WebDriver driver) {
-    	
+
     	if (driver instanceof ChromeDriver) {
-             
+
             this.devTools = ((ChromeDriver) driver).getDevTools();
             this.devTools.createSession();
             this.devTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty()));
@@ -45,21 +48,21 @@ public class NetworkInterceptorUtil {
             proxy.start(0);
 
       	      org.openqa.selenium.Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
-             
+
             System.out.println("Use these proxy settings when launching Firefox: " + seleniumProxy);
              proxy.newHar("firefoxTest");
             isFirefoxProxyActive = true;
         } else {
             throw new UnsupportedOperationException("Browser not supported for network interception.");
         }
-    	
+
     }
 
     public void startListening(String targetApi) {
         requestIdRef.set(null);
         latestJsonResponse = null;
         latestJsonRequest = null;
- 
+
 //        Payload
         devTools.addListener(Network.requestWillBeSent(), request -> {
             Request req = request.getRequest();
@@ -68,7 +71,7 @@ public class NetworkInterceptorUtil {
 //                System.out.println("📌 Request Headers: " + req.getHeaders());
                 System.out.println("📌payload Request Method: " + req.getMethod());
                 if (req.getPostData().isPresent()) {
-                    latestJsonRequest = req.getPostData().get();  
+                    latestJsonRequest = req.getPostData().get();
                     System.out.println("📌 Request Payload: " + latestJsonRequest);
                 }
             }
@@ -80,7 +83,7 @@ public class NetworkInterceptorUtil {
                 System.out.println("📌 API Response Received: " + res.getUrl());
                 System.out.println("📌 Status Code: " + res.getStatus());
 //                System.out.println("📌 Response Headers: " + res.getHeaders());
-                requestIdRef.set(response.getRequestId());   
+                requestIdRef.set(response.getRequestId());
             }
         });
     }
@@ -89,6 +92,7 @@ public class NetworkInterceptorUtil {
         if (requestIdRef.get() != null) {
             GetResponseBodyResponse responseBody = devTools.send(Network.getResponseBody(requestIdRef.get()));
             latestJsonResponse = responseBody.getBody();
+            Base_driver.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
             return latestJsonResponse;
         } else {
             System.out.println("❌ No response captured!");
@@ -104,12 +108,12 @@ public class NetworkInterceptorUtil {
     public String getLatestJsonRequest() {
         return latestJsonRequest;
     }
-    
+
 //    if u want to call creatting object of classs
 
 //	 String jsonRequest = networkUtil.getLatestJsonRequest();
 //       String jsonResponse = networkUtil.getLatestJsonResponse();
-    
+
 //    if (jsonRequest != null) {
 //        System.out.println("📌 Captured API Request Payload: " + jsonRequest);
 //    } else {
@@ -121,5 +125,5 @@ public class NetworkInterceptorUtil {
 //    } else {
 //        System.out.println("❌ No API response captured!");
 //    }
-    
+
 }

@@ -23,13 +23,14 @@ public class Home {
 	Properties props = ConfigManager.getProperties();
 	Common common = new Common();
 	Buttons button = new Buttons();
-//	String TARGET_API = "addForm";
-//	EndPoint endpoint= new EndPoint();
-	
+
 	NetworkInterceptorUtil networkUtil = new NetworkInterceptorUtil(Base_driver.driver);
 
 	private By Add_Form = By.xpath("(//i[@class=\"ri-add-fill\"])[2]");
 	private By Add_Form_mobile = By.xpath("(//i[@class=\"ri-add-fill\"])[1]");
+
+	private By Delete_Form = By.xpath("//i[@class=\"ri-delete-bin-line\"]");
+	private By All_Form = By.xpath("//i[@class='ri-more-2-fill']");
 	private By First_name = By.xpath("//input[@placeholder=\"Name this form\"]");
 	private By Last_name = By.xpath("//input[@placeholder=\"Describe this form\"]");
 	private By Select_Service = By
@@ -49,15 +50,15 @@ public class Home {
 	private By appointmentcard = By.xpath("//i[@class='ri-newspaper-line']");
 	private By Date_Point = By.xpath("//div[@class=\"MuiFormControl-root MuiTextField-root css-m925do\"]");
 	private By ok_button = By.xpath("//button[contains(text(),'OK')]");
-	
+
 	//	Add_Client
 	private By add_external_button = By.xpath("//i[@class=\"ri-add-line\"]");
 	private By add_internal_button = By.xpath("//p[@class=\"MuiTypography-root MuiTypography-body1 css-1j5h8oe\"]");
 	private By Fname = By.xpath("//input[@placeholder=\"First Name\"]");
 
 	private By Lname = By.xpath("//input[@placeholder=\"First Name\"]");
-	
-	
+
+
 	private By questionTitle(int index) {
 		return By.xpath(
 				"(//h5[@class='sd-title sd-element__title sd-question__title']//span[@class='sv-string-editor'])["
@@ -72,8 +73,8 @@ public class Home {
 			String Gender, String DOB, String HAddress) {
 		Base_driver.driver.findElement(add_external_button).click();
 		Base_driver.driver.findElement(add_internal_button).click();
-		
-		
+
+
 	}
 
 	public void verify_appointments_as_per_date() {
@@ -116,6 +117,39 @@ public class Home {
 
 		System.out.println("formattedTime" + formattedTime);
 		assert formattedTime.matches("\\d{1,2}:\\d{2} (AM|PM)") : "Time format is incorrect";
+	}
+
+
+	public void delete_form() {
+		List<WebElement> elements = Base_driver.driver.findElements(All_Form);
+		if (!elements.isEmpty()) {
+		    WebElement lastElement = elements.get(elements.size() - 1);
+		    lastElement.click();
+		} else {
+		    System.out.println("No elements found with the given locator.");
+		}
+
+		Base_driver.driver.findElement(Delete_Form).click();
+
+		networkUtil.startListening(EndPoint.DELETE_FORM);
+		common.delete_pop_up();
+
+
+		String jsonRequest = networkUtil.getLatestJsonRequest();
+		String jsonResponse = networkUtil.getLatestJsonResponse();
+
+		if (jsonRequest != null) {
+			System.out.println("📌 Captured API Request Payload: " + jsonRequest);
+		} else {
+			System.out.println("❌ No API request payload captured!");
+		}
+
+		if (jsonResponse != null) {
+			System.out.println("📌 API JSON Response: " + jsonResponse);
+		} else {
+			System.out.println("❌ No API response captured!");
+		}
+
 	}
 
 	public void user_drag() throws InterruptedException {

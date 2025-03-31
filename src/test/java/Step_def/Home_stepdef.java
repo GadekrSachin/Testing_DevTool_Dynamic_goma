@@ -32,7 +32,7 @@ public class Home_stepdef {
 	public void add_and_and_and_and_and_and_and(String FName, String LName, String cCode, String Mnumber, String Email, String Gender, String DOB, String HAddress) {
 	    Homepage.add_client(FName, LName, cCode, Mnumber, Email, Gender, DOB, HAddress);
 	}
-	
+	 
 	@Then("verify create a new client")
 	public void verify_create_a_new_client() {
 	    
@@ -62,10 +62,13 @@ public class Home_stepdef {
 	public void user_on_form_list_page() throws InterruptedException {
 		common.Upto_AllModule("catalog");
 		common.Catalog_submodule("consulting form");
-		Homepage.form_fill();
-//		ap.Get(props.getProperty("form_get_url")); 
 		
-		Thread.sleep(3000);
+	}
+	
+	@Then("validate delete form")
+	public void validate_delete_form() { 
+		Homepage.delete_form() ;
+		
 	}
 	
 	@When("Verify appointments as per date")
@@ -74,7 +77,9 @@ public class Home_stepdef {
 	}
 
 	@When("user create a new form")
-	public void user_create_a_new_form() {
-		System.out.println("data 2");
+	public void user_create_a_new_form() throws InterruptedException {
+		Homepage.form_fill(); 
+		
+		Thread.sleep(3000);
 	}
 }

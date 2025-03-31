@@ -11,15 +11,15 @@ import com.factory.Base_driver;
 
 public class Buttons {
 
-	
-	
+
+
 	private By Popup_OkButton = By.xpath("//button[contains(text(),'Ok')]");
-	
-	
+
+
 	public void clickFixedButton(WebDriver driver) {
 	    try {
-	        WebElement button = Base_driver. driver.findElement(Popup_OkButton);  
-	        button.click();  
+	        WebElement button = Base_driver. driver.findElement(Popup_OkButton);
+	        button.click();
 	        System.out.println("Fixed button clicked successfully.");
 	    } catch (NoSuchElementException e) {
 	        System.out.println("Fixed button not found.");
@@ -27,7 +27,7 @@ public class Buttons {
 	        System.out.println("Fixed button not clickable.");
 	    }
 	}
-	
-	
-	
+
+
+
 }
