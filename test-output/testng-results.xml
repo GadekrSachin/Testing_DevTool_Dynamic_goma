@@ -2,26 +2,26 @@
 <testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-03-31T20:32:51 IST" name="Default suite" finished-at="2025-03-31T20:33:22 IST" duration-ms="30386">
+  <suite started-at="2025-03-31T22:34:26 IST" name="Default suite" finished-at="2025-03-31T22:34:57 IST" duration-ms="30737">
     <groups>
       <group name="cucumber">
         <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:runner.loginrunner@cc43f62]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
       </group> <!-- cucumber -->
     </groups>
-    <test started-at="2025-03-31T20:32:51 IST" name="Default test" finished-at="2025-03-31T20:33:22 IST" duration-ms="30386">
+    <test started-at="2025-03-31T22:34:26 IST" name="Default test" finished-at="2025-03-31T22:34:57 IST" duration-ms="30737">
       <class name="runner.loginrunner">
-        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:runner.loginrunner@cc43f62]" started-at="2025-03-31T20:32:51 IST" name="setUpClass" finished-at="2025-03-31T20:32:52 IST" duration-ms="445" status="PASS">
+        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:runner.loginrunner@cc43f62]" started-at="2025-03-31T22:34:26 IST" name="setUpClass" finished-at="2025-03-31T22:34:27 IST" duration-ms="424" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[org.testng.TestRunner@56cfe111]]>
+                <![CDATA[org.testng.TestRunner@10c72a6f]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpClass -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:runner.loginrunner@cc43f62]" started-at="2025-03-31T20:32:52 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2025-03-31T20:33:22 IST" duration-ms="29793" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:runner.loginrunner@cc43f62]" started-at="2025-03-31T22:34:27 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2025-03-31T22:34:57 IST" duration-ms="30189" status="FAIL">
           <params>
             <param index="0">
               <value>
@@ -34,22 +34,24 @@
               </value>
             </param>
           </params>
-          <exception class="java.lang.AssertionError">
+          <exception class="org.json.JSONException">
             <message>
-              <![CDATA[Test Failed: Invalid formId detected]]>
+              <![CDATA[JSONObject["formId"] not found.]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.AssertionError: Test Failed: Invalid formId detected
-at com.pages.Home.form_fill(Home.java:293)
+              <![CDATA[org.json.JSONException: JSONObject["formId"] not found.
+at org.json.JSONObject.get(JSONObject.java:572)
+at org.json.JSONObject.getInt(JSONObject.java:744)
+at com.pages.Home.form_fill(Home.java:302)
 at Step_def.Home_stepdef.user_create_a_new_form(Home_stepdef.java:81)
 at ✽.user create a new form(file:///C:/Users/SHUBH/eclipse-workspace/Go_man/./src/test/resources/features/Homepage.feature:9)
 ]]>
             </full-stacktrace>
-          </exception> <!-- java.lang.AssertionError -->
+          </exception> <!-- org.json.JSONException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:runner.loginrunner@cc43f62]" started-at="2025-03-31T20:33:22 IST" name="tearDownClass" finished-at="2025-03-31T20:33:22 IST" duration-ms="112" status="PASS">
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:runner.loginrunner@cc43f62]" started-at="2025-03-31T22:34:57 IST" name="tearDownClass" finished-at="2025-03-31T22:34:57 IST" duration-ms="94" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownClass -->

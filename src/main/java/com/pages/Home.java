@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
-
+import org.testng.Assert;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -120,7 +120,7 @@ public class Home {
 	}
 
 
-	public void delete_form() {
+	public void delete_form() throws InterruptedException {
 		List<WebElement> elements = Base_driver.driver.findElements(All_Form);
 		if (!elements.isEmpty()) {
 		    WebElement lastElement = elements.get(elements.size() - 1);
@@ -128,27 +128,42 @@ public class Home {
 		} else {
 		    System.out.println("No elements found with the given locator.");
 		}
-
+		Thread.sleep(2000);
 		Base_driver.driver.findElement(Delete_Form).click();
 
 		networkUtil.startListening(EndPoint.DELETE_FORM);
 		common.delete_pop_up();
+		networkUtil.waitForResponses(5);
 
 
-		String jsonRequest = networkUtil.getLatestJsonRequest();
-		String jsonResponse = networkUtil.getLatestJsonResponse();
+		List<String> jsonRequest = networkUtil.getAllJsonRequests();
+		List<String> jsonResponse = networkUtil.getAllJsonResponses();
 
-		if (jsonRequest != null) {
-			System.out.println("📌 Captured API Request Payload: " + jsonRequest);
-		} else {
-			System.out.println("❌ No API request payload captured!");
-		}
+		if (jsonRequest.isEmpty()) {
+	        System.out.println("❌ No API request payloads captured!");
 
-		if (jsonResponse != null) {
-			System.out.println("📌 API JSON Response: " + jsonResponse);
-		} else {
-			System.out.println("❌ No API response captured!");
-		}
+	    } else {
+	        for (String request : jsonRequest) {
+	            System.out.println(request);
+	        }
+	    }
+		    if (jsonResponse.isEmpty()) {
+		        Assert.fail("❌ Test Failed: No API responses captured!");
+		    } else {
+		    	boolean isTestPassed = false;
+		        for (String response : jsonResponse) {
+
+		            if (response.contains("\"success\":true")) {
+		                isTestPassed = true;
+		                break;
+		            }
+		        }
+		        if (isTestPassed) {
+		            System.out.println("✅ TEST PASSED: 'success' is true in API response.");
+		        } else {
+		            Assert.fail("❌ TEST FAILED: 'success' was not true in API response.");
+		        }
+		    }
 
 	}
 
@@ -271,19 +286,17 @@ public class Home {
 		Base_driver.driver.findElement(save_Q).click();
 		Thread.sleep(3000);
 
-		String jsonRequest = networkUtil.getLatestJsonRequest();
-		String jsonResponse = networkUtil.getLatestJsonResponse();
+		List<String> jsonRequest = networkUtil.getAllJsonRequests();
+		List<String> jsonResponse = networkUtil.getAllJsonResponses();
 
-		if (jsonRequest != null) {
-			System.out.println("📌 Captured API Request Payload: " + jsonRequest);
-		} else {
-			System.out.println("❌ No API request payload captured!");
+		System.out.println("📌 All API Request Payloads:");
+		for (String request : jsonRequest) {
+		    System.out.println(request);
 		}
 
-		if (jsonResponse != null) {
-			System.out.println("📌 API JSON Response: " + jsonResponse);
-		} else {
-			System.out.println("❌ No API response captured!");
+		System.out.println("📌 All API JSON Responses:");
+		for (String response : jsonResponse) {
+		    System.out.println(response);
 		}
 
 		int formId = new JSONObject(jsonRequest).getInt("formId");

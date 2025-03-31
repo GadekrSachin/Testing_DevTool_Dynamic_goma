@@ -51,7 +51,7 @@
               <ul>
                 <li>
                   <a href="#" panel-name="test-xml-Default_suite" class="navigator-link ">
-                    <span>C:\Users\SHUBH\AppData\Local\Temp\testng-eclipse--1777409867\testng-customsuite.xml</span>
+                    <span>C:\Users\SHUBH\AppData\Local\Temp\testng-eclipse-565806389\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -131,8 +131,10 @@
                   </a> <!-- runScenario("ab testing is done", "Form functionality") -->
                   <span class="method-name">runScenario</span>
                   <span class="parameters">("ab testing is done", "Form functionality")</span>
-                  <div class="stack-trace">java.lang.AssertionError: Test Failed: Invalid formId detected
-	at com.pages.Home.form_fill(Home.java:293)
+                  <div class="stack-trace">org.json.JSONException: JSONObject[&quot;formId&quot;] not found.
+	at org.json.JSONObject.get(JSONObject.java:572)
+	at org.json.JSONObject.getInt(JSONObject.java:744)
+	at com.pages.Home.form_fill(Home.java:302)
 	at Step_def.Home_stepdef.user_create_a_new_form(Home_stepdef.java:81)
 	at ✽.user create a new form(file:///C:/Users/SHUBH/eclipse-workspace/Go_man/./src/test/resources/features/Homepage.feature:9)
 
@@ -146,7 +148,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\SHUBH\AppData\Local\Temp\testng-eclipse--1777409867\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\SHUBH\AppData\Local\Temp\testng-eclipse-565806389\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -207,12 +209,12 @@ data.addRows(1);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'runScenario')
 data.setCell(0, 2, 'runner.loginrunner')
-data.setCell(0, 3, 29793);
+data.setCell(0, 3, 30189);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 29 seconds</span>
+              <span class="suite-total-time">Total running time: 30 seconds</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -240,18 +242,18 @@ return data;
             <div class="chronological-class">
               <div class="chronological-class-name">runner.loginrunner</div> <!-- chronological-class-name -->
               <div class="configuration-class before">
-                <span class="method-name">setUpClass(org.testng.TestRunner@56cfe111)</span>
+                <span class="method-name">setUpClass(org.testng.TestRunner@10c72a6f)</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-class before -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
                 <span class="method-name">runScenario("ab testing is done", "Form functionality")</span>
-                <span class="method-start">455 ms</span>
+                <span class="method-start">430 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-class after">
                 <span class="method-name">tearDownClass</span>
-                <span class="method-start">30257 ms</span>
+                <span class="method-start">30628 ms</span>
               </div> <!-- configuration-class after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

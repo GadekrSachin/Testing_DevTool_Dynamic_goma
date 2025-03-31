@@ -57,9 +57,9 @@ function toggleAllBoxes() {
 <tr>
 <td>Tests passed/Failed/Skipped:</td><td>0/1/0</td>
 </tr><tr>
-<td>Started on:</td><td>Mon Mar 31 20:32:51 IST 2025</td>
+<td>Started on:</td><td>Mon Mar 31 22:34:26 IST 2025</td>
 </tr>
-<tr><td>Total time:</td><td>30 seconds (30386 ms)</td>
+<tr><td>Total time:</td><td>30 seconds (30737 ms)</td>
 </tr><tr>
 <td>Included groups:</td><td></td>
 </tr><tr>
@@ -76,17 +76,21 @@ function toggleAllBoxes() {
 </tr>
 <tr>
 <td title='runner.loginrunner.runScenario()'><b>runScenario</b><br>Test class: runner.loginrunner<br>Test method: Runs Cucumber Scenarios<br>Parameters: "ab testing is done", "Form functionality"</td>
-<td><div><pre>java.lang.AssertionError: Test Failed: Invalid formId detected
-	at com.pages.Home.form_fill(Home.java:293)
+<td><div><pre>org.json.JSONException: JSONObject[&quot;formId&quot;] not found.
+	at org.json.JSONObject.get(JSONObject.java:572)
+	at org.json.JSONObject.getInt(JSONObject.java:744)
+	at com.pages.Home.form_fill(Home.java:302)
 	at Step_def.Home_stepdef.user_create_a_new_form(Home_stepdef.java:81)
 	at ✽.user create a new form(file:///C:/Users/SHUBH/eclipse-workspace/Go_man/./src/test/resources/features/Homepage.feature:9)
-</pre></div><a href='#' onClick='toggleBox("stack-trace839180856", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace839180856'><pre>java.lang.AssertionError: Test Failed: Invalid formId detected
-	at com.pages.Home.form_fill(Home.java:293)
+</pre></div><a href='#' onClick='toggleBox("stack-trace689140691", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace689140691'><pre>org.json.JSONException: JSONObject[&quot;formId&quot;] not found.
+	at org.json.JSONObject.get(JSONObject.java:572)
+	at org.json.JSONObject.getInt(JSONObject.java:744)
+	at com.pages.Home.form_fill(Home.java:302)
 	at Step_def.Home_stepdef.user_create_a_new_form(Home_stepdef.java:81)
 	at ✽.user create a new form(file:///C:/Users/SHUBH/eclipse-workspace/Go_man/./src/test/resources/features/Homepage.feature:9)
 </pre></div></td>
-<td>29</td>
+<td>30</td>
 <td>runner.loginrunner@cc43f62</td></tr>
 </table><p>
 </body>
